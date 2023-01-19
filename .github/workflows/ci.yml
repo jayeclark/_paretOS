@@ -41,7 +41,7 @@ jobs:
       - name: Run unit tests
         run: pnpm test:unit
 
-      - name: Launch server and run integration tests
+      - name: Launch server & run integration tests
         run: |
           pnpm run start &
           sleep 45 &&
