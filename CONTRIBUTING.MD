@@ -144,24 +144,38 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit title
-* Consider starting the commit message with an applicable emoji:
-    * :art: `:art:` when improving the format/structure of the code
-    * :racehorse: `:racehorse:` when improving performance
-    * :memo: `:memo:` when writing docs
-    * :bug: `:bug:` when fixing a bug
-    * :fire: `:fire:` when removing code or files
-    * :green_heart: `:green_heart:` when fixing the CI build
-    * :white_check_mark: `:white_check_mark:` when adding tests
-    * :lock: `:lock:` when dealing with security
-    * :arrow_up: `:arrow_up:` when upgrading dependencies
-    * :arrow_down: `:arrow_down:` when downgrading dependencies
-    * :shirt: `:shirt:` when removing linter warnings
+* Consider starting the commit message with an applicable emoji or prefix:
+    * :art: `:art:` or "art:" when improving the format/structure of the code
+    * :racehorse: `:racehorse:` or "speed:" when improving performance
+    * :memo: `:memo:` or "docs:" when writing docs
+    * :bug: `:bug:` or "fix:" when fixing a bug
+    * :fire: `:fire:` or "prune:" when removing code or files
+    * :green_heart: `:green_heart:` or "ci:" when fixing the CI build
+    * :white_check_mark: `:white_check_mark:` or "test:" when adding tests
+    * :lock: `:lock:` or "sec:" when dealing with security
+    * :arrow_up: `:arrow_up:` or "deps:" when upgrading dependencies
+    * :arrow_down: `:arrow_down:` or "deps:" when downgrading dependencies
+    * :shirt: `:shirt:` or "lint:" when removing linter warnings
 
 ### JavaScript Styleguide
 
 All JavaScript code is linted with [Prettier](https://prettier.io/).
 
 * Prefer the object spread operator (`{...anotherObj}`) to `Object.assign()`
+* Prefer files less than 120 lines in length, max 200 lines. Longer files indicate insufficient encapsulation & should be broken up into smaller, independent pieces.
+* Use capital snake case for constants, give them descriptive names, and place them near the beginning of the file (after imports). These help identify arbitrary values or settings that a contributor may wish to adjust in the future. For example:
+  ```js
+  /* CAROUSEL CONFIGURAION */
+  const CAROUSEL_SECONDS_PER_IMAGE = 8; // 
+
+  // ...many lines later
+  return (<Carousel speed={CAROUSEL_SECONDS_PER_IMAGE} />)
+  ```
+instead of 
+  ```js
+  // ...many lines into the code
+  return (<Carousel speed={8} />)
+  ```
 * Inline `export`s with expressions whenever possible
   ```js
   // Use this:
@@ -176,11 +190,33 @@ All JavaScript code is linted with [Prettier](https://prettier.io/).
   export default ClassName
   ```
 
-### Specs Styleguide
+### Specs Styleguide - Unit Tests
 
-- Include thoughtfully-worded, well-structured Cypress specs in the `./spec` folder.
+- Include thoughtfully-worded, well-structured React Testing Library tests in the `./src/tests` folder.
+- Treat `describe` as a noun or situation. 
+- Treat `it` as a statement about what is expected to happen given certain conditions.
+- When possible, organize each 'it' block into three distinct parts: setup, subject under test, and conditions/expected results. 
+
+### Specs Styleguide - E2E Tests
+- Include thoughtfully-worded, well-structured Puppeteer tests in the `./tests/integration` folder.
 - Treat `describe` as a noun or situation.
-- Treat `it` as a statement about state or how an operation changes state.
+- Treat `it` as a statement about state or how an operation changes state given certain conditions. For example:
+  ```js
+  describe("Start A Sprint", () => {
+    it("allows an authenticated user to create a sprint when that user provides valid input", () => {
+      // test code goes here
+    }),
+    it("allows an authenticated user to create a sprint when that user provides valid input", () => {
+      // test code goes here
+    }),
+    it("does not allow an authenticated user to create a sprint if that user provides invalid input", () => {
+      // test code goes here
+    }),
+    it("does not allow an unauthenticated user to access the view to create a sprint", () => {
+      // test code goes here
+    })
+  })
+  ```
 
 ### Documentation Styleguide
 
